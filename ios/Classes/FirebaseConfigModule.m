@@ -40,6 +40,7 @@
 {
   return [[FIRRemoteConfig remoteConfig] lastFetchTime];
 }
+
 - (NSNumber *)lastFetchStatus
 {
   return @([[FIRRemoteConfig remoteConfig] lastFetchStatus]);

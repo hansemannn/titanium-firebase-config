@@ -10,13 +10,11 @@
 @interface FirebaseConfigModule : TiModule {
 }
 
-- (NSDate *)lastFetchTime;
+@property (nonatomic, readonly, strong) NSDate *lastFetchTime;
 
-- (NSNumber *)lastFetchStatus;
+@property (nonatomic, readonly, assign) NSNumber *lastFetchStatus;
 
-- (NSNumber *)developerModeEnabled;
-
-- (void)setDeveloperModeEnabled:(NSNumber *)developerModeEnabled;
+@property (nonatomic, readwrite, assign) NSNumber *developerModeEnabled;
 
 - (void)activateFetched:(id)unused;
 
