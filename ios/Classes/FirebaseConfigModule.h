@@ -1,0 +1,39 @@
+/**
+ * titanium-firebase-config
+ *
+ * Created by Hans Knoechel
+ * Copyright (c) 2017 Axway Appcelerator. All rights reserved.
+ */
+
+#import "TiModule.h"
+
+@interface FirebaseConfigModule : TiModule {
+}
+
+- (NSDate *)lastFetchTime;
+
+- (NSNumber *)lastFetchStatus;
+
+- (NSNumber *)developerModeEnabled;
+
+- (void)setDeveloperModeEnabled:(NSNumber *)developerModeEnabled;
+
+- (void)activateFetched:(id)unused;
+
+- (void)fetch:(id)arguments;
+
+- (NSDictionary *)objectForKeyedSubscript:(id)keyedSubscript;
+
+- (NSDictionary *)configValueForKey:(id)arguments;
+
+- (NSArray *)allKeysFromSource:(id)arguments;
+
+- (NSArray *)keysWithPrefix:(id)arguments;
+
+- (void)setDefaults:(id)arguments;
+
+- (void)setDefaultsFromPlist:(id)arguments;
+
+- (NSDictionary *)defaultValueForKey:(id)arguments;
+
+@end
