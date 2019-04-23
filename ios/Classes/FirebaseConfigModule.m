@@ -162,10 +162,15 @@
   }
 }
 
-- (NSDictionary *)defaultValueForKey:(id)arguments
+- (NSDictionary *)defaultValueForKey:(NSArray<NSString *> *)arguments
 {
   NSString *key = [arguments objectAtIndex:0];
-  NSString *namespace = [arguments objectAtIndex:1];
+  NSString *namespace = nil;
+
+  if (arguments.count > 1) {
+    namespace = [arguments objectAtIndex:1];
+  }
+
   return [FirebaseConfigUtilities dictionaryFromConfigValue:[[FIRRemoteConfig remoteConfig] defaultValueForKey:key namespace:namespace]];
 }
 

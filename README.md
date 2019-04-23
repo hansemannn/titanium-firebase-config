@@ -5,7 +5,7 @@ Use the native Firebase SDK in Axway Titanium. This repository is part of the [T
 ## Requirements
 
 - [x] The [Firebase Core](https://github.com/hansemannn/titanium-firebase-core) module
-- [x] Titanium SDK 6.3.0+
+- [x] Titanium SDK 7.0.0+
 
 ## Download
 
@@ -59,45 +59,45 @@ export default class ConfigManager {
 
 ## API's
 
-### `FirebaseConfig`
+### Cross Platform Methods
 
-#### Methods
+#### `activateFetched()` (iOS / Android)
 
-##### `activateFetched()`
-
-##### `fetch(parameters)`
+#### `fetch(parameters)` (iOS / Android)
   - `parameters` (Dictionary)
     - `callback` (Function)
     - `expirationDuration` (Number, optional)
 
-##### `objectForKeyedSubscript(keyedSubscript) -> Dictionary`
-  - `keyedSubscript` (String)
-
-##### `configValueForKey(key, namespace) -> Dictionary`
+#### `configValueForKey(key, namespace) -> Dictionary` (iOS / Android)
   - `key` (String)
   - `namespace` (String, optional)
 
-##### `allKeysFromSource(source, namespace) -> Array<String>`
+### iOS-only Methods
+
+#### `objectForKeyedSubscript(keyedSubscript) -> Dictionary`
+  - `keyedSubscript` (String)
+
+#### `allKeysFromSource(source, namespace) -> Array<String>`
   - `source` (`SOURCE_`)
   - `namespace` (String, optional)
 
-##### `keysWithPrefix(prefix, namespace) -> Array<String>`
+#### `keysWithPrefix(prefix, namespace) -> Array<String>`
   - `prefix` (String)
   - `namespace` (String, optional)
 
-##### `setDefaults(defaults, namespace)`
+#### `setDefaults(defaults, namespace)`
   - `defaults` (Dictionary)
   - `namespace` (String, optional)
 
-##### `setDefaultsFromPlist(plistName, namespace)`
+#### `setDefaultsFromPlist(plistName, namespace)`
   - `plistName` (Dictionary)
   - `namespace` (String, optional)
 
-##### `defaultValueForKey(parameters) -> Dictionary`
+#### `defaultValueForKey(parameters) -> Dictionary`
   - `key` (String)
   - `namespace` (String, optional)
 
-### Properties
+### iOS-only Properties
 
 #### `lastFetchTime` (Date, get)
 
@@ -105,7 +105,7 @@ export default class ConfigManager {
 
 #### `developerModeEnabled` (Bool, get/set)
 
-### Constants
+### iOS-only Constants
 
 #### `FETCH_STATUS_NO_FETCH_YET`
 #### `FETCH_STATUS_SUCCESS`
@@ -119,8 +119,8 @@ export default class ConfigManager {
 ## Build
 
 ```js
-cd ios
-appc run -p ios --build-only
+cd [ios|android]
+appc run -p [ios|android] --build-only
 ```
 
 ## Legal

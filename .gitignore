@@ -32,3 +32,4 @@ nbproject
 /ios/metadata.json
 ios/firebase.config-iphone-*.zip
 /ios/dist
+android/.gradle
