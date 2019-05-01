@@ -16,7 +16,7 @@
 
 @property (nonatomic, readwrite, assign) NSNumber *developerModeEnabled;
 
-- (void)activateFetched:(id)unused;
+- (NSNumber *)activateFetched:(id)unused;
 
 - (void)fetch:(id)arguments;
 

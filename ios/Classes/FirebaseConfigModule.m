@@ -56,9 +56,9 @@
   [[FIRRemoteConfig remoteConfig] setConfigSettings:[[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:[TiUtils boolValue:developerModeEnabled]]];
 }
 
-- (void)activateFetched:(id)unused
+- (NSNumber *)activateFetched:(id)unused
 {
-  [[FIRRemoteConfig remoteConfig] activateFetched];
+  return @([[FIRRemoteConfig remoteConfig] activateFetched]);
 }
 
 - (void)fetch:(id)arguments
@@ -137,8 +137,13 @@
 - (void)setDefaults:(id)arguments
 {
   if ([arguments count] == 1) {
-    ENSURE_SINGLE_ARG(arguments, NSDictionary);
-    [[FIRRemoteConfig remoteConfig] setDefaults:arguments];
+    if ([arguments isKindOfClass:[NSDictionary class]]) {
+      [[FIRRemoteConfig remoteConfig] setDefaults:arguments];
+    } else if ([arguments isKindOfClass:[NSString class]]) {
+      [[FIRRemoteConfig remoteConfig] setDefaultsFromPlistFileName:arguments];
+    } else {
+      [self throwException:@"Invalid defaults provided" subreason:@"Please either pass a dictionary or string" location:CODELOCATION];
+    }
   } else if ([arguments count] == 2) {
     NSDictionary *defaults = [arguments objectAtIndex:0];
     NSString *namespace = [arguments objectAtIndex:1];
