@@ -8,6 +8,8 @@
  */
 package firebase.config;
 
+import android.app.Activity;
+
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.appcelerator.kroll.KrollDict;
@@ -15,6 +17,7 @@ import org.appcelerator.kroll.KrollFunction;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.util.TiConvert;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -51,8 +54,11 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 
 	@Kroll.method
 	public void setDefaults(Object params) throws Exception {
-		if (params instanceof Integer) {
-			FirebaseRemoteConfig.getInstance().setDefaults(TiConvert.toInt(params));
+		if (params instanceof String) {
+			Activity currentActivity = TiApplication.getAppCurrentActivity();
+			int resId = currentActivity.getResources().getIdentifier(TiConvert.toString(params), "xml", currentActivity.getPackageName());
+
+			FirebaseRemoteConfig.getInstance().setDefaults(resId);
 		} else if (params instanceof HashMap) {
 			FirebaseRemoteConfig.getInstance().setDefaults((HashMap) params);
 		} else {
