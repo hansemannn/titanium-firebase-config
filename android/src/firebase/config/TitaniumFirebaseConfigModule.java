@@ -14,11 +14,11 @@ import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollFunction;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-
-import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.titanium.util.TiConvert;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
+import java.util.HashMap;
 
 @Kroll.module(name="TitaniumFirebaseConfig", id="firebase.config")
 public class TitaniumFirebaseConfigModule extends KrollModule
@@ -38,22 +38,32 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 	@Kroll.method
 	public void fetch(KrollDict params)
 	{
-		Log.w(LCAT, "FETCH!");
-
 		final KrollFunction callback = (KrollFunction) params.get("callback");
-		FirebaseRemoteConfig.getInstance().fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
+		int expirationDuration = params.getInt("expirationDuration");
+
+		FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
-				Log.w(LCAT, "FETCHED!");
 				callback.callAsync(getKrollObject(), new KrollDict());
 			}
 		});
 	}
 
 	@Kroll.method
-	public void activateFetched()
+	public void setDefaults(Object params) throws Exception {
+		if (params instanceof Integer) {
+			FirebaseRemoteConfig.getInstance().setDefaults(TiConvert.toInt(params));
+		} else if (params instanceof HashMap) {
+			FirebaseRemoteConfig.getInstance().setDefaults((HashMap) params);
+		} else {
+			throw new Exception("Invalid defaults provided. Please either pass a dictionary or string");
+		}
+	}
+
+	@Kroll.method
+	public boolean activateFetched()
 	{
-		FirebaseRemoteConfig.getInstance().activateFetched();
+		return FirebaseRemoteConfig.getInstance().activateFetched();
 	}
 
 	@Kroll.method
