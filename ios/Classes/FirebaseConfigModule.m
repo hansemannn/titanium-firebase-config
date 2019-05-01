@@ -136,20 +136,16 @@
 
 - (void)setDefaults:(id)arguments
 {
-  if ([arguments count] == 1) {
-    if ([arguments isKindOfClass:[NSDictionary class]]) {
-      [[FIRRemoteConfig remoteConfig] setDefaults:arguments];
-    } else if ([arguments isKindOfClass:[NSString class]]) {
-      [[FIRRemoteConfig remoteConfig] setDefaultsFromPlistFileName:arguments];
-    } else {
-      [self throwException:@"Invalid defaults provided" subreason:@"Please either pass a dictionary or string" location:CODELOCATION];
-    }
-  } else if ([arguments count] == 2) {
+  if ([arguments isKindOfClass:[NSDictionary class]]) {
+    [[FIRRemoteConfig remoteConfig] setDefaults:arguments];
+  } else if ([arguments isKindOfClass:[NSString class]]) {
+    [[FIRRemoteConfig remoteConfig] setDefaultsFromPlistFileName:arguments];
+  } else if ([arguments isKindOfClass:[NSArray class]]) {
     NSDictionary *defaults = [arguments objectAtIndex:0];
     NSString *namespace = [arguments objectAtIndex:1];
     [[FIRRemoteConfig remoteConfig] setDefaults:arguments namespace:namespace];
   } else {
-    NSLog(@"[ERROR] Unknown argument count provided");
+    [self throwException:@"Invalid defaults provided" subreason:@"Please either pass a dictionary or string" location:CODELOCATION];
   }
 }
 
