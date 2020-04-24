@@ -2,7 +2,7 @@
  * titanium-firebase-config
  *
  * Created by Hans Knoechel
- * Copyright (c) 2017 Axway Appcelerator. All rights reserved.
+ * Copyright (c) 2020 by Hans Knöchel. All rights reserved.
  */
 
 #import "FirebaseConfigModule.h"
@@ -46,19 +46,23 @@
   return @([[FIRRemoteConfig remoteConfig] lastFetchStatus]);
 }
 
-- (NSNumber *)developerModeEnabled
+- (NSNumber *)activateFetched:(id)callback
 {
-  return @([[[FIRRemoteConfig remoteConfig] configSettings] isDeveloperModeEnabled]);
-}
+  ENSURE_SINGLE_ARG_OR_NIL(callback, KrollCallback);
 
-- (void)setDeveloperModeEnabled:(NSNumber *)developerModeEnabled
-{
-  [[FIRRemoteConfig remoteConfig] setConfigSettings:[[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:[TiUtils boolValue:developerModeEnabled]]];
-}
+  [[FIRRemoteConfig remoteConfig] activateWithCompletionHandler:^(NSError * _Nullable error) {
+    if (callback != nil) {
+      NSMutableDictionary *event = [NSMutableDictionary dictionaryWithDictionary:@{ @"success": @(error == nil) }];
+      if (error != nil) {
+        event[@"error"] = error.localizedDescription;
+      }
 
-- (NSNumber *)activateFetched:(id)unused
-{
-  return @([[FIRRemoteConfig remoteConfig] activateFetched]);
+      [callback call:@[event] thisObject:self];
+    }
+  }];
+
+  // TODO: Remove in next version, keep only for parity with Android
+  return nil;
 }
 
 - (void)fetch:(id)arguments
@@ -105,9 +109,8 @@
     ENSURE_SINGLE_ARG(arguments, NSString);
     return [FirebaseConfigUtilities dictionaryFromConfigValue:[[FIRRemoteConfig remoteConfig] configValueForKey:arguments]];
   } else if ([arguments count] == 2) {
-    NSString *key = [arguments objectAtIndex:0];
-    NSString *namespace = [arguments objectAtIndex:1];
-    return [FirebaseConfigUtilities dictionaryFromConfigValue:[[FIRRemoteConfig remoteConfig] configValueForKey:key namespace:namespace]];
+    NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
+    return nil;
   } else {
     NSLog(@"[ERROR] Unknown argument count provided");
   }
@@ -117,7 +120,12 @@
 {
   NSString *source = [arguments objectAtIndex:0];
   NSString *namespace = [arguments objectAtIndex:1];
-  return [[FIRRemoteConfig remoteConfig] allKeysFromSource:source.intValue namespace:namespace];
+
+  if (namespace != nil) {
+    NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
+  }
+
+  return [[FIRRemoteConfig remoteConfig] allKeysFromSource:source.intValue];
 }
 
 - (NSArray *)keysWithPrefix:(id)arguments
@@ -126,9 +134,8 @@
     ENSURE_SINGLE_ARG(arguments, NSString);
     return [[[FIRRemoteConfig remoteConfig] keysWithPrefix:arguments] allObjects];
   } else if ([arguments count] == 2) {
-    NSString *prefix = [arguments objectAtIndex:0];
-    NSString *namespace = [arguments objectAtIndex:1];
-    return [[[FIRRemoteConfig remoteConfig] keysWithPrefix:prefix namespace:namespace] allObjects];
+    NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
+    return nil;
   } else {
     NSLog(@"[ERROR] Unknown argument count provided");
   }
@@ -143,7 +150,10 @@
   } else if ([arguments isKindOfClass:[NSArray class]]) {
     NSDictionary *defaults = [arguments objectAtIndex:0];
     NSString *namespace = [arguments objectAtIndex:1];
-    [[FIRRemoteConfig remoteConfig] setDefaults:arguments namespace:namespace];
+    if (namespace != nil) {
+      NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
+    }
+    [[FIRRemoteConfig remoteConfig] setDefaults:arguments];
   } else {
     [self throwException:@"Invalid defaults provided" subreason:@"Please either pass a dictionary or string" location:CODELOCATION];
   }
@@ -157,7 +167,10 @@
   } else if ([arguments count] == 2) {
     NSString *plist = [arguments objectAtIndex:0];
     NSString *namespace = [arguments objectAtIndex:1];
-    [[FIRRemoteConfig remoteConfig] setDefaultsFromPlistFileName:plist namespace:namespace];
+    if (namespace != nil) {
+      NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
+    }
+    [[FIRRemoteConfig remoteConfig] setDefaultsFromPlistFileName:plist];
   } else {
     NSLog(@"[ERROR] Unknown argument count provided");
   }
@@ -166,13 +179,12 @@
 - (NSDictionary *)defaultValueForKey:(NSArray<NSString *> *)arguments
 {
   NSString *key = [arguments objectAtIndex:0];
-  NSString *namespace = nil;
 
   if (arguments.count > 1) {
-    namespace = [arguments objectAtIndex:1];
+    NSLog(@"[ERROR] Namespaces are not used in Firebase Config anymore.");
   }
 
-  return [FirebaseConfigUtilities dictionaryFromConfigValue:[[FIRRemoteConfig remoteConfig] defaultValueForKey:key namespace:namespace]];
+  return [FirebaseConfigUtilities dictionaryFromConfigValue:[[FIRRemoteConfig remoteConfig] defaultValueForKey:key]];
 }
 
 #pragma mark Constants

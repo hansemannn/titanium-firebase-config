@@ -103,8 +103,6 @@ export default class ConfigManager {
 
 #### `lastFetchStatus` (`FETCH_STATUS_*`, get)
 
-#### `developerModeEnabled` (Bool, get/set)
-
 ### iOS-only Constants
 
 #### `FETCH_STATUS_NO_FETCH_YET`

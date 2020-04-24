@@ -1,9 +1,9 @@
-//
-//  FirebaseConfigUtilities.h
-//  titanium-firebase-config
-//
-//  Created by Hans Knöchel on 28.10.17.
-//
+/**
+ * titanium-firebase-config
+ *
+ * Created by Hans Knoechel
+ * Copyright (c) 2020 by Hans Knöchel. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
