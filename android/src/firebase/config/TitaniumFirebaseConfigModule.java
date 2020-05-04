@@ -8,59 +8,44 @@
  */
 package firebase.config;
 
-import android.app.Activity;
-
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollFunction;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.kroll.common.TiConfig;
-import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.util.TiConvert;
-import com.google.android.gms.tasks.OnSuccessListener;
+import org.appcelerator.titanium.util.TiRHelper;
 
 import java.util.HashMap;
 
 @Kroll.module(name="TitaniumFirebaseConfig", id="firebase.config")
 public class TitaniumFirebaseConfigModule extends KrollModule
 {
-
-	// Standard Debugging variables
-	private static final String LCAT = "TitaniumFirebaseConfigModule";
-	private static final boolean DBG = TiConfig.LOGD;
-
-	public TitaniumFirebaseConfigModule()
-	{
-		super();
-	}
-
 	// Methods
 
 	@Kroll.method
 	public void fetch(KrollDict params)
 	{
 		final KrollFunction callback = (KrollFunction) params.get("callback");
-		int expirationDuration = params.getInt("expirationDuration");
+		int expirationDuration = params.optInt("expirationDuration", -1);
 
-		FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnSuccessListener(new OnSuccessListener<Void>() {
-			@Override
-			public void onSuccess(Void aVoid) {
-				callback.callAsync(getKrollObject(), new KrollDict());
-			}
-		});
+		OnSuccessListener successListener = (OnSuccessListener<Void>) aVoid -> callback.callAsync(getKrollObject(), new KrollDict());
+
+		if (expirationDuration != -1) {
+			FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnSuccessListener(successListener);
+		} else {
+			FirebaseRemoteConfig.getInstance().fetch().addOnSuccessListener(successListener);
+		}
 	}
 
 	@Kroll.method
 	public void setDefaults(Object params) throws Exception {
 		if (params instanceof String) {
-			Activity currentActivity = TiApplication.getAppCurrentActivity();
-			int resId = currentActivity.getResources().getIdentifier(TiConvert.toString(params), "xml", currentActivity.getPackageName());
-
-			FirebaseRemoteConfig.getInstance().setDefaults(resId);
+			FirebaseRemoteConfig.getInstance().setDefaultsAsync(TiRHelper.getResource("xml." + TiConvert.toString(params)));
 		} else if (params instanceof HashMap) {
-			FirebaseRemoteConfig.getInstance().setDefaults((HashMap) params);
+			FirebaseRemoteConfig.getInstance().setDefaultsAsync((HashMap) params);
 		} else {
 			throw new Exception("Invalid defaults provided. Please either pass a dictionary or string");
 		}
