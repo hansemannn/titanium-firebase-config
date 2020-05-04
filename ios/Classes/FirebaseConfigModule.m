@@ -10,6 +10,7 @@
 #import "TiBase.h"
 #import "TiHost.h"
 #import "TiUtils.h"
+#import "TiBlob.h"
 #import <FirebaseRemoteConfig/FirebaseRemoteConfig.h>
 
 @implementation FirebaseConfigModule
@@ -114,6 +115,30 @@
   } else {
     NSLog(@"[ERROR] Unknown argument count provided");
   }
+}
+
+- (id)getString:(id)key
+{
+  ENSURE_SINGLE_ARG(key, NSString);
+  return [FIRRemoteConfig.remoteConfig configValueForKey:key].stringValue;
+}
+
+- (id)getBool:(id)key
+{
+  ENSURE_SINGLE_ARG(key, NSString);
+  return @([FIRRemoteConfig.remoteConfig configValueForKey:key].boolValue);
+}
+
+- (id)getNumber:(id)key
+{
+  ENSURE_SINGLE_ARG(key, NSString);
+  return [FIRRemoteConfig.remoteConfig configValueForKey:key].numberValue;
+}
+
+- (id)getData:(id)key
+{
+  ENSURE_SINGLE_ARG(key, NSString);
+  return [[TiBlob alloc] initWithData:[FIRRemoteConfig.remoteConfig configValueForKey:key].dataValue mimetype:@"text/plain"];
 }
 
 - (NSArray *)allKeysFromSource:(id)arguments

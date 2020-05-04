@@ -74,5 +74,25 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 
 		return result;
 	}
+
+	@Kroll.method
+	public String getString(String key) {
+		return FirebaseRemoteConfig.getInstance().getString(key);
+	}
+
+	@Kroll.method
+	public boolean getBool(String key) {
+		return FirebaseRemoteConfig.getInstance().getBoolean(key);
+	}
+
+	@Kroll.method
+	public double getNumber(String key) {
+		return FirebaseRemoteConfig.getInstance().getDouble(key);
+	}
+
+	@Kroll.method
+	public String getData(String key) {
+		return null; // TODO: Implement nce available
+	}
 }
 

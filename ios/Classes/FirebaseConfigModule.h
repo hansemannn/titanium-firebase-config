@@ -24,6 +24,14 @@
 
 - (NSDictionary *)configValueForKey:(id)arguments;
 
+- (id)getString:(id)key;
+
+- (id)getBool:(id)key;
+
+- (id)getNumber:(id)key;
+
+- (id)getData:(id)key;
+
 - (NSArray *)allKeysFromSource:(id)arguments;
 
 - (NSArray *)keysWithPrefix:(id)arguments;

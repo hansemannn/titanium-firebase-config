@@ -96,6 +96,18 @@ export default class ConfigManager {
 #### `defaultValueForKey(parameters) -> Dictionary`
   - `key` (String)
   - `namespace` (String, optional)
+    
+#### `getString(key)` -> String
+  - `key` (String)
+    
+#### `getBool(key)` -> String
+  - `key` (String)
+    
+#### `getNumber(key)` -> String
+  - `key` (String)
+  
+#### `getData(key)` -> String
+  - `key` (String)
 
 ### iOS-only Properties
 
