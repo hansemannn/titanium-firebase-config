@@ -51,9 +51,9 @@
 {
   ENSURE_SINGLE_ARG_OR_NIL(callback, KrollCallback);
 
-  [[FIRRemoteConfig remoteConfig] activateWithCompletionHandler:^(NSError * _Nullable error) {
+  [[FIRRemoteConfig remoteConfig] activateWithCompletion:^(BOOL changed, NSError * _Nullable error) {
     if (callback != nil) {
-      NSMutableDictionary *event = [NSMutableDictionary dictionaryWithDictionary:@{ @"success": @(error == nil) }];
+      NSMutableDictionary *event = [NSMutableDictionary dictionaryWithDictionary:@{ @"success": @(error == nil), @"changed": @(changed) }];
       if (error != nil) {
         event[@"error"] = error.localizedDescription;
       }
