@@ -28,37 +28,21 @@ export default class ConfigManager {
     static fetch () {
         TiFirebaseConfig.fetch({
             callback: event => {
-                TiFirebaseConfig.activateFetched();
+                TiFirebaseConfig.activateFetched(); // Activate the fetched values
             }
         });
     }
 
     static getString(key) {
-        const value = TiFirebaseConfig.configValueForKey(key);
-        if (!value) return undefined;
-
-        return value.string;
+      return TiFirebaseConfig.getString(key);
     }
 
     static getBool(key) {
-        const value = TiFirebaseConfig.configValueForKey(key);
-        if (!value) return undefined;
-
-        return value.bool;
+      return TiFirebaseConfig.getBool(key);
     }
 
     static getNumber(key) {
-        const value = TiFirebaseConfig.configValueForKey(key);
-        if (!value) return undefined;
-
-        return value.number;
-    }
-
-    static getData(key) {
-        const value = TiFirebaseConfig.configValueForKey(key);
-        if (!value) return undefined;
-
-        return value.data;
+      return TiFirebaseConfig.getNumber(key);
     }
 }
 ```
