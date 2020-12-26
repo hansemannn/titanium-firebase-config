@@ -5,13 +5,10 @@
  * Copyright (c) 2020 by Hans Knöchel. All rights reserved.
  */
 
+#import <FirebaseRemoteConfig/FirebaseRemoteConfig.h>
+
 #import "FirebaseConfigModule.h"
 #import "FirebaseConfigUtilities.h"
-#import "TiBase.h"
-#import "TiHost.h"
-#import "TiUtils.h"
-#import "TiBlob.h"
-#import <FirebaseRemoteConfig/FirebaseRemoteConfig.h>
 
 @implementation FirebaseConfigModule
 

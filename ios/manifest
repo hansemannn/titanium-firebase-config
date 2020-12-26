@@ -2,12 +2,13 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 3.1.0
+version: 3.2.0
 apiversion: 2
 architectures: armv7 arm64 i386 x86_64
 description: titanium-firebase-config
 author: Hans Knoechel
 license: Apache 2
+mac: false
 copyright: Copyright (c) 2017-present by Hans Knoechel
 
 # these should not be edited
@@ -15,4 +16,4 @@ name: titanium-firebase-config
 moduleid: firebase.config
 guid: 020977b2-c61c-4269-94c0-45cec7c2ab98
 platform: iphone
-minsdk: 8.3.1.GA
+minsdk: 9.2.0

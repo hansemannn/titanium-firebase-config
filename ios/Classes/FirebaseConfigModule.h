@@ -5,10 +5,9 @@
  * Copyright (c) 2020 by Hans Knöchel. All rights reserved.
  */
 
-#import "TiModule.h"
+#import <TitaniumKit/TitaniumKit.h>
 
-@interface FirebaseConfigModule : TiModule {
-}
+@interface FirebaseConfigModule : TiModule
 
 @property (nonatomic, readonly, strong) NSDate *lastFetchTime;
 
