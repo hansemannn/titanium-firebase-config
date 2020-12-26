@@ -4,5 +4,5 @@ repositories {
 }
 
 dependencies {
-	implementation 'com.google.firebase:firebase-config:19.1.4'
+	implementation 'com.google.firebase:firebase-config:20.0.2'
 }

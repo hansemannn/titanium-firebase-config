@@ -33,6 +33,7 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 
 		OnSuccessListener successListener = (OnSuccessListener<Void>) aVoid -> callback.callAsync(getKrollObject(), new KrollDict());
 
+		// TODO: Activate immediately after fetching
 		if (expirationDuration != -1) {
 			FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnSuccessListener(successListener);
 		} else {
@@ -52,9 +53,9 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 	}
 
 	@Kroll.method
-	public boolean activateFetched()
+	public void activateFetched()
 	{
-		return FirebaseRemoteConfig.getInstance().activateFetched();
+		FirebaseRemoteConfig.getInstance().activate();
 	}
 
 	@Kroll.method
@@ -92,7 +93,7 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 
 	@Kroll.method
 	public String getData(String key) {
-		return null; // TODO: Implement nce available
+		return null; // TODO: Implement once available
 	}
 }
 
