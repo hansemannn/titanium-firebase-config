@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -26,10 +26,9 @@
 		24DD6CFA1134B3F500162E58 /* FirebaseConfigModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* FirebaseConfigModule.m */; };
 		24DE9E1111C5FE74003F90F6 /* FirebaseConfigModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* FirebaseConfigModuleAssets.h */; };
 		24DE9E1211C5FE74003F90F6 /* FirebaseConfigModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* FirebaseConfigModuleAssets.m */; };
-		3AD4484123E6E19600433A07 /* FirebaseABTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD4484023E6E19600433A07 /* FirebaseABTesting.framework */; };
+		3A209E9E25CED1FA007CAAF1 /* FirebaseRemoteConfig.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A209E9C25CED1FA007CAAF1 /* FirebaseRemoteConfig.xcframework */; };
+		3A209E9F25CED1FA007CAAF1 /* FirebaseABTesting.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A209E9D25CED1FA007CAAF1 /* FirebaseABTesting.xcframework */; };
 		AA747D9F0F9514B9006C5449 /* FirebaseConfig_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* FirebaseConfig_Prefix.pch */; };
-		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
-		DB37E9F51FA485D100DD8684 /* FirebaseRemoteConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB37E9F41FA485D000DD8684 /* FirebaseRemoteConfig.framework */; };
 		DB37E9F81FA48A4500DD8684 /* FirebaseConfigUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DB37E9F61FA48A4500DD8684 /* FirebaseConfigUtilities.h */; };
 		DB37E9F91FA48A4500DD8684 /* FirebaseConfigUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DB37E9F71FA48A4500DD8684 /* FirebaseConfigUtilities.m */; };
 /* End PBXBuildFile section */
@@ -50,11 +49,10 @@
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
 		24DE9E0F11C5FE74003F90F6 /* FirebaseConfigModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirebaseConfigModuleAssets.h; path = Classes/FirebaseConfigModuleAssets.h; sourceTree = "<group>"; };
 		24DE9E1011C5FE74003F90F6 /* FirebaseConfigModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirebaseConfigModuleAssets.m; path = Classes/FirebaseConfigModuleAssets.m; sourceTree = "<group>"; };
-		3AD4484023E6E19600433A07 /* FirebaseABTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseABTesting.framework; path = platform/FirebaseABTesting.framework; sourceTree = "<group>"; };
+		3A209E9C25CED1FA007CAAF1 /* FirebaseRemoteConfig.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FirebaseRemoteConfig.xcframework; path = platform/FirebaseRemoteConfig.xcframework; sourceTree = "<group>"; };
+		3A209E9D25CED1FA007CAAF1 /* FirebaseABTesting.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FirebaseABTesting.xcframework; path = platform/FirebaseABTesting.xcframework; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* FirebaseConfig_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirebaseConfig_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libfirebase.config.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfirebase.config.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB37E9F41FA485D000DD8684 /* FirebaseRemoteConfig.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseRemoteConfig.framework; path = platform/FirebaseRemoteConfig.framework; sourceTree = "<group>"; };
 		DB37E9F61FA48A4500DD8684 /* FirebaseConfigUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FirebaseConfigUtilities.h; path = Classes/FirebaseConfigUtilities.h; sourceTree = "<group>"; };
 		DB37E9F71FA48A4500DD8684 /* FirebaseConfigUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FirebaseConfigUtilities.m; path = Classes/FirebaseConfigUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,9 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
-				DB37E9F51FA485D100DD8684 /* FirebaseRemoteConfig.framework in Frameworks */,
-				3AD4484123E6E19600433A07 /* FirebaseABTesting.framework in Frameworks */,
+				3A209E9F25CED1FA007CAAF1 /* FirebaseABTesting.xcframework in Frameworks */,
+				3A209E9E25CED1FA007CAAF1 /* FirebaseRemoteConfig.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,9 +92,8 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3AD4484023E6E19600433A07 /* FirebaseABTesting.framework */,
-				DB37E9F41FA485D000DD8684 /* FirebaseRemoteConfig.framework */,
-				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				3A209E9D25CED1FA007CAAF1 /* FirebaseABTesting.xcframework */,
+				3A209E9C25CED1FA007CAAF1 /* FirebaseRemoteConfig.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,7 +160,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "titanium-firebase-config" */;
 			compatibilityVersion = "Xcode 8.0";
