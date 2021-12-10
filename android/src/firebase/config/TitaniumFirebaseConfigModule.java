@@ -9,7 +9,6 @@
 package firebase.config;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollFunction;
@@ -31,13 +30,14 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 		final KrollFunction callback = (KrollFunction) params.get("callback");
 		int expirationDuration = params.optInt("expirationDuration", -1);
 
-		OnSuccessListener successListener = (OnSuccessListener<Void>) aVoid -> callback.callAsync(getKrollObject(), new KrollDict());
-
-		// TODO: Activate immediately after fetching
 		if (expirationDuration != -1) {
-			FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnSuccessListener(successListener);
+			FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnCompleteListener(task -> {
+				callback.callAsync(getKrollObject(), new KrollDict());
+			});
 		} else {
-			FirebaseRemoteConfig.getInstance().fetch().addOnSuccessListener(successListener);
+			FirebaseRemoteConfig.getInstance().fetch().addOnCompleteListener(task -> {
+				callback.callAsync(getKrollObject(), new KrollDict());
+			});
 		}
 	}
 
@@ -53,9 +53,13 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 	}
 
 	@Kroll.method
-	public void activateFetched()
+	public void activateFetched(KrollFunction callback)
 	{
-		FirebaseRemoteConfig.getInstance().activate();
+		FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener(task -> {
+			if (callback != null) {
+				callback.callAsync(getKrollObject(), new KrollDict());
+			}
+		});
 	}
 
 	@Kroll.method

@@ -24,14 +24,6 @@
   return @"firebase.config";
 }
 
-#pragma mark Lifecycle
-
-- (void)startup
-{
-  [super startup];
-  NSLog(@"[DEBUG] %@ loaded", self);
-}
-
 #pragma Public APIs
 
 - (NSDate *)lastFetchTime
