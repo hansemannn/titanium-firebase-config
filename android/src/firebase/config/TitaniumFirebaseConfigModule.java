@@ -17,7 +17,6 @@ import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.util.TiConvert;
 import org.appcelerator.titanium.util.TiRHelper;
-import org.appcelerator.kroll.common.Log;
 
 import java.util.HashMap;
 
@@ -28,23 +27,6 @@ public class TitaniumFirebaseConfigModule extends KrollModule
 	public static final String PROPERTY_ERROR = "error";
 	public static final String PROPERTY_RESULT = "result";
 	// Methods
-
-	// @Kroll.method
-	// public void fetch(KrollDict params)
-	// {
-	// 	final KrollFunction callback = (KrollFunction) params.get("callback");
-	// 	int expirationDuration = params.optInt("expirationDuration", -1);
-	//
-	// 	if (expirationDuration != -1) {
-	// 		FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnCompleteListener(task -> {
-	// 			callback.callAsync(getKrollObject(), new KrollDict());
-	// 		});
-	// 	} else {
-	// 		FirebaseRemoteConfig.getInstance().fetch().addOnCompleteListener(task -> {
-	// 			callback.callAsync(getKrollObject(), new KrollDict());
-	// 		});
-	// 	}
-	// }
 
 	@Kroll.method
 	public void fetch(KrollDict params)
