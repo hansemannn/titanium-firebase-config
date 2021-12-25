@@ -55,6 +55,33 @@
   return nil;
 }
 
+- (NSNumber *)fetchAndActivate:(id)callback
+{
+  ENSURE_SINGLE_ARG_OR_NIL(callback, KrollCallback);
+    [[FIRRemoteConfig remoteConfig] fetchAndActivateWithCompletionHandler:^(FIRRemoteConfigFetchAndActivateStatus status, NSError* _Nullable error)
+    {
+        if (error != nil) {
+          [callback call:@[ @{
+            @"success" : @NO,
+            @"error" : error.localizedDescription
+          }] thisObject:self];
+          return;
+        }
+
+        [callback call:@[ @{
+          @"success" : @YES,
+          @"status" : @(status)
+        }] thisObject:self];
+    }];
+}
+
+- (void)setMinimumFetchIntervalInSeconds:(NSTimeInterval)minimumFetchInterval
+{;
+    FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
+    remoteConfigSettings.minimumFetchInterval = minimumFetchInterval;
+    [FIRRemoteConfig remoteConfig].configSettings = remoteConfigSettings;
+}
+
 - (void)fetch:(id)arguments
 {
   ENSURE_SINGLE_ARG(arguments, NSDictionary);

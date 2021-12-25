@@ -24,7 +24,7 @@ thank you!
 import TiFirebaseConfig from 'firebase.config';
 
 export default class ConfigManager {
-    
+
     static fetch () {
         TiFirebaseConfig.fetch({
             callback: event => {
@@ -51,6 +51,12 @@ export default class ConfigManager {
 
 ### Cross Platform Methods
 
+#### `fetchAndActivate(callback)` (iOS / Android)
+  - `callback` (Function)
+
+#### `setMinimumFetchIntervalInSeconds(minimumFetchInterval)` (iOS / Android)
+  - `minimumFetchInterval` (Number)
+
 #### `activateFetched()` (iOS / Android)
 
 #### `fetch(parameters)` (iOS / Android)
@@ -61,6 +67,15 @@ export default class ConfigManager {
 #### `configValueForKey(key, namespace) -> Dictionary` (iOS / Android)
   - `key` (String)
   - `namespace` (String, optional)
+
+#### `getString(key)` -> String //Use for JSON too
+  - `key` (String)
+
+#### `getBool(key)` -> String
+  - `key` (String)
+
+#### `getNumber(key)` -> String
+  - `key` (String)
 
 ### iOS-only Methods
 
@@ -86,16 +101,7 @@ export default class ConfigManager {
 #### `defaultValueForKey(parameters) -> Dictionary`
   - `key` (String)
   - `namespace` (String, optional)
-    
-#### `getString(key)` -> String
-  - `key` (String)
-    
-#### `getBool(key)` -> String
-  - `key` (String)
-    
-#### `getNumber(key)` -> String
-  - `key` (String)
-  
+
 #### `getData(key)` -> String
   - `key` (String)
 
@@ -125,4 +131,4 @@ appc run -p [ios|android] --build-only
 
 ## Legal
 
-This module is Copyright (c) 2017-present by Hans Knöchel. All Rights Reserved. 
+This module is Copyright (c) 2017-present by Hans Knöchel. All Rights Reserved.
