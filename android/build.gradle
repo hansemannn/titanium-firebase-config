@@ -4,5 +4,5 @@ repositories {
 }
 
 dependencies {
-	implementation 'com.google.firebase:firebase-config:21.0.1'
+	implementation 'com.google.firebase:firebase-config:21.1.0'
 }
