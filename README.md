@@ -11,7 +11,7 @@ thank you!
 ## Requirements
 
 - [x] The [Firebase Core](https://github.com/hansemannn/titanium-firebase-core) module
-- [x] Titanium SDK 7.0.0+
+- [x] Titanium SDK 10.0.0+
 
 ## Download
 
