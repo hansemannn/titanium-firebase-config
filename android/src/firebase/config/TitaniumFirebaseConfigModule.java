@@ -84,6 +84,15 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
     }
 
     @Kroll.method
+    public void setFetchTimeoutInSeconds(int fetchTimeOut)
+    {
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+        .setFetchTimeoutInSeconds(fetchTimeOut)
+        .build();
+        FirebaseRemoteConfig.getInstance().setConfigSettingsAsync(configSettings);
+    }
+
+    @Kroll.method
     public void setDefaults(Object params) throws Exception {
         if (params instanceof String) {
             FirebaseRemoteConfig.getInstance().setDefaultsAsync(TiRHelper.getResource("xml." + TiConvert.toString(params)));
