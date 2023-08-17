@@ -34,7 +34,7 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
     public static final String PROPERTY_SUCCESS = "success";
     public static final String PROPERTY_ERROR = "error";
     public static final String PROPERTY_RESULT = "result";
-	ConfigUpdateListenerRegistration culr;
+    ConfigUpdateListenerRegistration configUpdateListener;
     // Methods
 
     @Kroll.method
@@ -136,25 +136,15 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
     @Kroll.setProperty
     public void enableRealtimeUpdates(Boolean value) {
         if (value) {
-			culr = FirebaseRemoteConfig.getInstance().addOnConfigUpdateListener(new ConfigUpdateListener() {
+            configUpdateListener = FirebaseRemoteConfig.getInstance().addOnConfigUpdateListener(new ConfigUpdateListener() {
                 @Override
                 public void onUpdate(ConfigUpdate configUpdate) {
                     Set<String> keys = configUpdate.getUpdatedKeys();
                     KrollDict result = new KrollDict();
-                    Object[] resultKeys = new Object[keys.size()];
-                    int i=0;
-                    for (String key:keys) {
-                        resultKeys[i] = key;
-                        ++i;
-                    }
-
-                    result.put("keys", resultKeys);
+                    result.put("keys", keys.toArray());
                     fireEvent("update", result);
-                    FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                        }
-                    });
+
+                    FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener((OnCompleteListener) task -> {});
                 }
 
                 @Override
@@ -162,9 +152,9 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
                     Log.e("FirebaseConfig", error.getMessage());
                 }
             });
-        } else if (culr != null) {
-			culr.remove();
-		}
+        } else if (configUpdateListener != null) {
+            configUpdateListener.remove();
+        }
     }
 
     @Kroll.method
