@@ -7,10 +7,7 @@
  */
 package firebase.config;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
@@ -136,24 +133,28 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
     @Kroll.setProperty
     public void enableRealtimeUpdates(Boolean value) {
         if (value) {
-            configUpdateListener = FirebaseRemoteConfig.getInstance().addOnConfigUpdateListener(new ConfigUpdateListener() {
-                @Override
-                public void onUpdate(ConfigUpdate configUpdate) {
-                    Set<String> keys = configUpdate.getUpdatedKeys();
-                    KrollDict result = new KrollDict();
-                    result.put("keys", keys.toArray());
-                    fireEvent("update", result);
+            if (configUpdateListener == null) {
+                configUpdateListener = FirebaseRemoteConfig.getInstance().addOnConfigUpdateListener(new ConfigUpdateListener() {
+                    @Override
+                    public void onUpdate(ConfigUpdate configUpdate) {
+                        Set<String> keys = configUpdate.getUpdatedKeys();
+                        KrollDict result = new KrollDict();
+                        result.put("keys", keys.toArray());
+                        fireEvent("update", result);
 
-                    FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener((OnCompleteListener) task -> {});
-                }
+                        FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener((OnCompleteListener) task -> {
+                        });
+                    }
 
-                @Override
-                public void onError(FirebaseRemoteConfigException error) {
-                    Log.e("FirebaseConfig", error.getMessage());
-                }
-            });
+                    @Override
+                    public void onError(FirebaseRemoteConfigException error) {
+                        Log.e("FirebaseConfig", error.getMessage());
+                    }
+                });
+            }
         } else if (configUpdateListener != null) {
             configUpdateListener.remove();
+            configUpdateListener = null;
         }
     }
 
