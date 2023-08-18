@@ -49,7 +49,7 @@ export default class ConfigManager {
 
 ## API's
 
-### Cross Platform Methods
+### Methods
 
 #### `fetchAndActivate(callback)` (iOS / Android)
   - `callback` (Function)
@@ -76,6 +76,27 @@ export default class ConfigManager {
 
 #### `getNumber(key)` -> String
   - `key` (String)
+
+### Properties
+
+#### `enableRealtimeUpdates(value: Boolean)`
+
+Start listening for real-time config updates from the Remote Config backend and automatically
+fetch updates when they're available. The result can be listened to via the `update` event.
+
+If a connection to the Remote Config backend is not already open, calling this method will
+open it. Multiple listeners can be added by calling this method again, but subsequent calls
+re-use the same connection to the backend.
+
+Note: Real-time Remote Config requires the Firebase Remote Config Realtime API. See Get started
+with Firebase Remote Config at https://firebase.google.com/docs/remote-config/get-started for
+more information.
+
+### Events
+
+#### `update`
+  - `keys` (Array<String>) The updated keys.
+Fired when a real time config update occurs.
 
 ### iOS-only Methods
 

@@ -7,7 +7,11 @@
 
 #import <TitaniumKit/TitaniumKit.h>
 
-@interface FirebaseConfigModule : TiModule
+@class FIRConfigUpdateListenerRegistration;
+
+@interface FirebaseConfigModule : TiModule {
+  FIRConfigUpdateListenerRegistration *_configUpdateListener;
+}
 
 @property (nonatomic, readonly, strong) NSDate *lastFetchTime;
 
