@@ -149,9 +149,9 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
                         Set<String> keys = configUpdate.getUpdatedKeys();
                         KrollDict result = new KrollDict();
                         result.put("keys", keys.toArray());
-                        fireEvent("update", result);
 
                         FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener((OnCompleteListener) task -> {
+                            fireEvent("update", result);
                         });
                     }
 

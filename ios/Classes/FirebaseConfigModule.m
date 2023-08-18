@@ -157,6 +157,28 @@
   return [[TiBlob alloc] initWithData:[FIRRemoteConfig.remoteConfig configValueForKey:key].dataValue mimetype:@"text/plain"];
 }
 
+- (void)enableRealtimeUpdates:(id)value
+{
+  ENSURE_SINGLE_ARG(value, NSNumber);
+  
+  BOOL isEnabled = [TiUtils boolValue:value];
+  
+  // Make sure to recycle old instances
+  if (_configUpdateListener) {
+    [_configUpdateListener remove];
+  }
+
+  if (isEnabled) {
+    _configUpdateListener = [FIRRemoteConfig.remoteConfig
+                             addOnConfigUpdateListener:^(FIRRemoteConfigUpdate * _Nullable configUpdate, NSError * _Nullable error) {
+      NSArray* keys = [configUpdate.updatedKeys allObjects];
+      [self fireEvent:@"update" withObject:@{@ "keys": keys }];
+    }];
+  } else if (_configUpdateListener) {
+    _configUpdateListener = nil;
+  }
+}
+
 - (NSArray *)allKeysFromSource:(id)arguments
 {
   NSString *source = [arguments objectAtIndex:0];
