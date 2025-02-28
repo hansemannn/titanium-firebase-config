@@ -7,7 +7,9 @@
  */
 package firebase.config;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.ConfigUpdate;
 import com.google.firebase.remoteconfig.ConfigUpdateListener;
 import com.google.firebase.remoteconfig.ConfigUpdateListenerRegistration;
@@ -39,40 +41,12 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
         final KrollFunction callback = (KrollFunction) params.get("callback");
         int expirationDuration = params.optInt("expirationDuration", 43200); //Using the default minimum fetch interval if no duration is informed
 
-        FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnCompleteListener(task -> {
-            if (callback != null) {
-                KrollDict result = new KrollDict();
-                if (task.isSuccessful()) {
-                    result.put(PROPERTY_SUCCESS, true);
-                    result.put(PROPERTY_RESULT, task.getResult());
-                } else {
-                    result.put(PROPERTY_SUCCESS, false);
-                    if (task.getException() != null) {
-                        result.put(PROPERTY_ERROR, task.getException().getMessage());
-                    }
-                }
-                callback.callAsync(getKrollObject(), result);
-            }
-        });
+        FirebaseRemoteConfig.getInstance().fetch(expirationDuration).addOnCompleteListener(task -> postResult(callback, task));
     }
 
     @Kroll.method
     public void fetchAndActivate(KrollFunction callback) {
-        FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener(task -> {
-            if (callback != null) {
-                KrollDict result = new KrollDict();
-                if (task.isSuccessful()) {
-                    result.put(PROPERTY_SUCCESS, true);
-                    result.put(PROPERTY_RESULT, task.getResult());
-                } else {
-                    result.put(PROPERTY_SUCCESS, false);
-                    if (task.getException() != null) {
-                        result.put(PROPERTY_ERROR, task.getException().getMessage());
-                    }
-                }
-                callback.callAsync(getKrollObject(), result);
-            }
-        });
+        FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener(task -> postResult(callback, task));
     }
 
     @Kroll.method
@@ -96,21 +70,7 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
 
     @Kroll.method
     public void activateFetched(KrollFunction callback) {
-        FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener(task -> {
-            if (callback != null) {
-                KrollDict result = new KrollDict();
-                if (task.isSuccessful()) {
-                    result.put(PROPERTY_SUCCESS, true);
-                    result.put(PROPERTY_RESULT, task.getResult());
-                } else {
-                    result.put(PROPERTY_SUCCESS, false);
-                    if (task.getException() != null) {
-                        result.put(PROPERTY_ERROR, task.getException().getMessage());
-                    }
-                }
-                callback.callAsync(getKrollObject(), result);
-            }
-        });
+        FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener(task -> postResult(callback, task));
     }
 
     @Kroll.method
@@ -122,10 +82,7 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
         KrollDict result = new KrollDict();
         result.put("bool", boolValue);
         result.put("number", numberValue);
-
-        if (stringValue != null) {
-            result.put("string", stringValue);
-        }
+        result.put("string", stringValue);
 
         return result;
     }
@@ -136,18 +93,18 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
             if (configUpdateListener == null) {
                 configUpdateListener = FirebaseRemoteConfig.getInstance().addOnConfigUpdateListener(new ConfigUpdateListener() {
                     @Override
-                    public void onUpdate(ConfigUpdate configUpdate) {
+                    public void onUpdate(@NonNull ConfigUpdate configUpdate) {
                         Set<String> keys = configUpdate.getUpdatedKeys();
                         KrollDict result = new KrollDict();
                         result.put("keys", keys.toArray());
 
-                        FirebaseRemoteConfig.getInstance().activate().addOnCompleteListener((OnCompleteListener) task -> {
-                            fireEvent("update", result);
-                        });
+                        FirebaseRemoteConfig.getInstance()
+                                .activate()
+                                .addOnCompleteListener(task -> fireEvent("update", result));
                     }
 
                     @Override
-                    public void onError(FirebaseRemoteConfigException error) {
+                    public void onError(@NonNull FirebaseRemoteConfigException error) {
                         Log.e("FirebaseConfig", error.getMessage());
                     }
                 });
@@ -176,5 +133,24 @@ public class TitaniumFirebaseConfigModule extends KrollModule {
     @Kroll.method
     public String getData(String key) {
         return null; // TODO: Implement once available
+    }
+
+    private <TResult> void postResult(KrollFunction callback, Task<TResult> task) {
+        if (callback == null) {
+            return;
+        }
+
+        KrollDict result = new KrollDict();
+        result.put(PROPERTY_SUCCESS, task.isSuccessful());
+
+        if (task.isSuccessful()) {
+            result.put(PROPERTY_RESULT, task.getResult());
+        } else {
+            if (task.getException() != null) {
+                result.put(PROPERTY_ERROR, task.getException().getMessage());
+            }
+        }
+
+        callback.callAsync(getKrollObject(), result);
     }
 }
