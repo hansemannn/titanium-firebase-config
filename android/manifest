@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.4.1
+version: 4.5.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86 x86_64
 description: titanium-firebase-config
@@ -15,4 +15,4 @@ name: titanium-firebase-config
 moduleid: firebase.config
 guid: e6044380-e91d-46d5-90db-2921498f18ed
 platform: android
-minsdk: 9.0.0
+minsdk: 12.7.0
